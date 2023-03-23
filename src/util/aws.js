@@ -1,5 +1,6 @@
 import { DynamoDB } from '@aws-sdk/client-dynamodb';
 import { marshall, unmarshall } from '@aws-sdk/util-dynamodb';
+import { isEmpty } from 'lodash';
 
 const REGION = 'us-east-1';
 
@@ -13,6 +14,18 @@ const DYNAMODB = new DynamoDB({
 
 const TABLE_NAME = 'internal_automation_vendor_config';
 
+const cleanNullObjectData = (object) => {
+  return Object.fromEntries(
+    Object.entries(object)
+      .map(([key, value]) => [
+        key,
+        value === Object(value) ? cleanNullObjectData(value) : value,
+      ])
+      .filter(([_, value]) => value != null)
+      .filter(([_, value]) => !isEmpty(value))
+  );
+};
+
 export const updateVendor = async (originalVendor, editedVendor) => {
   await DYNAMODB.deleteItem({
     TableName: TABLE_NAME,
@@ -24,7 +37,7 @@ export const updateVendor = async (originalVendor, editedVendor) => {
 export const addVendor = async (vendor) => {
   await DYNAMODB.putItem({
     TableName: TABLE_NAME,
-    Item: marshall(vendor),
+    Item: marshall(cleanNullObjectData(vendor)),
   });
 };
 
