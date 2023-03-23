@@ -42,11 +42,13 @@ export default function Vendors() {
           setFormData(defaultFormData);
         }}
       >
-        <VendorForm
-          setRefresh={setRefresh}
-          vendor={formData.vendor}
-          setFormData={setFormData}
-        />
+        <>
+          <VendorForm
+            setRefresh={setRefresh}
+            vendor={formData.vendor}
+            setFormData={setFormData}
+          />
+        </>
       </Modal>
     </Card>
   );

@@ -36,7 +36,7 @@ export default function VendorTable({
           <TableRow>
             <TableCell>Vendor</TableCell>
             <TableCell align="right">Path</TableCell>
-            <TableCell align="cent">Maps</TableCell>
+            <TableCell align="center">Maps</TableCell>
             <TableCell align="center" p={1}>
               Actions
             </TableCell>
@@ -67,19 +67,21 @@ export default function VendorTable({
                       <Edit fontSize="inherit" />
                     </IconButton>
                   </Tooltip>
-                  <Tooltip title="Delete">
-                    <IconButton
-                      disabled={deleteDisabled}
-                      onClick={() => {
-                        deleteItem(vendor.vendor_name);
-                        setRefresh(true);
-                      }}
-                      aria-label="delete"
-                      size="small"
-                      color="error"
-                    >
-                      <Delete fontSize="inherit" />
-                    </IconButton>
+                  <Tooltip title={deleteDisabled ? 'Disabled' : 'Delete'}>
+                    <span>
+                      <IconButton
+                        disabled={deleteDisabled}
+                        onClick={() => {
+                          deleteItem(vendor.vendor_name);
+                          setRefresh(true);
+                        }}
+                        aria-label="delete"
+                        size="small"
+                        color="error"
+                      >
+                        <Delete fontSize="inherit" />
+                      </IconButton>
+                    </span>
                   </Tooltip>
                 </TableCell>
               </TableRow>

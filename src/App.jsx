@@ -29,14 +29,14 @@ export default function App() {
   const [accessCode, setAccessCode] = useState('');
   const drawerWidth = 250;
 
-  const modules = ['Vendors'];
+  const modules = ['Home', 'Vendors'];
   const moduleElementMap = {
     Home: <Home />,
     Vendors: <Vendors />,
     Inventory: <Inventory />,
   };
   const moduleUrlMap = {
-    Home: ['/', '/#/', '/#/home'],
+    Home: ['/', '/#'],
     Vendors: ['/#/vendors'],
     Inventory: ['/#/inventory'],
   };
@@ -45,7 +45,7 @@ export default function App() {
     <ListItem key={element} disablePadding>
       <ListItemButton
         component={Link}
-        to={`#/${element.toLowerCase()}`}
+        to={element === 'Home' ? '' : `#/${element.toLowerCase()}`}
         selected={moduleUrlMap[element].includes(window.location.pathname)}
       >
         <ListItemIcon>
@@ -150,17 +150,16 @@ export default function App() {
         {navigationDrawer}
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <Toolbar />
-          <Typography type="paragraph">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              {modules.map((module) => (
-                <Route
-                  path={`/${module.toLowerCase()}`}
-                  element={moduleElementMap[module]}
-                />
-              ))}
-            </Routes>
-          </Typography>
+          <Routes>
+            <Route key={'home'} path="/" element={<Home />} />
+            {modules.map((module) => (
+              <Route
+                key={module}
+                path={`/${module.toLowerCase()}`}
+                element={moduleElementMap[module]}
+              />
+            ))}
+          </Routes>
         </Box>
       </Box>
     </HashRouter>

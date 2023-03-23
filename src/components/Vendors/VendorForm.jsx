@@ -46,7 +46,7 @@ const formatLabel = (key) => {
     .join(' ');
 };
 
-export default function VendorForm({ vendor, setFormData, setRefresh }) {
+export default function VendorForm({ ref, vendor, setFormData, setRefresh }) {
   const [editedVendor, setEditedVendor] = useState({
     ...defaultVendor,
     ...vendor,
@@ -186,6 +186,7 @@ export default function VendorForm({ vendor, setFormData, setRefresh }) {
               </Box>
             ) : (
               <ExpandableFormSection
+                key={key}
                 title={formatLabel(key)}
                 formData={editedVendor[key]}
                 required={requiredKeys.includes(key)}
@@ -201,7 +202,13 @@ export default function VendorForm({ vendor, setFormData, setRefresh }) {
   );
 }
 
-const ExpandableFormSection = ({ title, required, formData, onChange }) => {
+const ExpandableFormSection = ({
+  key,
+  title,
+  required,
+  formData,
+  onChange,
+}) => {
   const [expanded, setExpanded] = useState(false);
 
   const onClickHandler = (e) => {
@@ -209,7 +216,7 @@ const ExpandableFormSection = ({ title, required, formData, onChange }) => {
   };
 
   return (
-    <>
+    <div key={key}>
       <ListItemButton onClick={onClickHandler}>
         <ListItemText>
           <Box display="inline-flex">
@@ -240,6 +247,6 @@ const ExpandableFormSection = ({ title, required, formData, onChange }) => {
           })}
         </Grid>
       </Collapse>
-    </>
+    </div>
   );
 };
