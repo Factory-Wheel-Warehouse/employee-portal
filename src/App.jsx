@@ -1,7 +1,6 @@
-import './App.css';
 import React, { useState } from 'react';
 import { Route, HashRouter, Routes } from 'react-router-dom';
-import Home from './components/Home';
+import Home from './components/Home/Home';
 import {
   AppBar,
   Box,
@@ -29,7 +28,7 @@ export default function App() {
   const [accessCode, setAccessCode] = useState('');
   const drawerWidth = 250;
 
-  const modules = ['Home', 'Vendors'];
+  const modules = ['Vendors'];
   const moduleElementMap = {
     Home: <Home />,
     Vendors: <Vendors />,
@@ -37,8 +36,8 @@ export default function App() {
   };
   const moduleUrlMap = {
     Home: ['/', '/#'],
-    Vendors: ['/#/vendors'],
-    Inventory: ['/#/inventory'],
+    Vendors: ['/vendors'],
+    Inventory: ['/inventory'],
   };
 
   const drawerListItems = modules.map((element) => (
@@ -151,7 +150,7 @@ export default function App() {
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <Toolbar />
           <Routes>
-            <Route key={'home'} path="/" element={<Home />} />
+            <Route key={'home'} path="/" element={<Vendors />} />
             {modules.map((module) => (
               <Route
                 key={module}

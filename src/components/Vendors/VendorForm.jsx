@@ -122,83 +122,85 @@ export default function VendorForm({ ref, vendor, setFormData, setRefresh }) {
   };
 
   return (
-    <Card
-      variant="outlined"
-      sx={{
-        margin: '10%',
-        maxHeight: '80vh',
-        overflow: 'auto',
-      }}
-    >
-      <CardHeader
-        title="Vendor Form"
-        titleTypographyProps={{ variant: 'h5' }}
-        action={
-          <>
-            <Button
-              color="error"
-              startIcon={<Cancel />}
-              onClick={(e) => setFormData(defaultVendor)}
-            >
-              Discard
-            </Button>
-            <Button
-              startIcon={success ? <Check /> : <Save />}
-              color={success ? 'success' : 'primary'}
-              disabled={loading}
-              onClick={onSaveHandler}
-            >
-              {success ? 'Success' : 'Save'}
-            </Button>
-          </>
-        }
-      />
-      {alert.hidden ? null : (
-        <Box m={2} marginTop={0}>
-          <Alert
-            action={
-              <Button onClick={() => setAlert({ ...alert, hidden: true })}>
-                OK
+    <form onSubmit={onSaveHandler}>
+      <Card
+        variant="outlined"
+        sx={{
+          margin: '10%',
+          maxHeight: '80vh',
+          overflow: 'auto',
+        }}
+      >
+        <CardHeader
+          title="Vendor Form"
+          titleTypographyProps={{ variant: 'h5' }}
+          action={
+            <>
+              <Button
+                color="error"
+                startIcon={<Cancel />}
+                onClick={(e) => setFormData(defaultVendor)}
+              >
+                Discard
               </Button>
-            }
-            severity={alert.severity}
-          >
-            {alert.message}
-          </Alert>
-        </Box>
-      )}
-      <Divider />
-      <CardContent>
-        <List>
-          {vendorKeys.map((key) => {
-            return key === 'vendor_name' ? (
-              <Box marginBottom={1.5}>
-                <TextField
-                  name={key}
+              <Button
+                startIcon={success ? <Check /> : <Save />}
+                color={success ? 'success' : 'primary'}
+                disabled={loading}
+                type="submit"
+              >
+                {success ? 'Success' : 'Save'}
+              </Button>
+            </>
+          }
+        />
+        {alert.hidden ? null : (
+          <Box m={2} marginTop={0}>
+            <Alert
+              action={
+                <Button onClick={() => setAlert({ ...alert, hidden: true })}>
+                  OK
+                </Button>
+              }
+              severity={alert.severity}
+            >
+              {alert.message}
+            </Alert>
+          </Box>
+        )}
+        <Divider />
+        <CardContent>
+          <List>
+            {vendorKeys.map((key) => {
+              return key === 'vendor_name' ? (
+                <Box marginBottom={1.5}>
+                  <TextField
+                    name={key}
+                    key={key}
+                    label={formatLabel(key)}
+                    required
+                    onChange={(e) => {
+                      onChangeHandler(key, e);
+                    }}
+                    defaultValue={editedVendor['vendor_name']}
+                  />
+                </Box>
+              ) : (
+                <ExpandableFormSection
                   key={key}
-                  label={formatLabel(key)}
-                  required
+                  title={formatLabel(key)}
+                  formData={editedVendor[key]}
+                  required={requiredKeys.includes(key)}
                   onChange={(e) => {
                     onChangeHandler(key, e);
                   }}
-                  defaultValue={editedVendor['vendor_name']}
                 />
-              </Box>
-            ) : (
-              <ExpandableFormSection
-                key={key}
-                title={formatLabel(key)}
-                formData={editedVendor[key]}
-                required={requiredKeys.includes(key)}
-                onChange={(e) => {
-                  onChangeHandler(key, e);
-                }}
-              />
-            );
-          })}
-        </List>
-      </CardContent>
-    </Card>
+              );
+            })}
+          </List>
+        </CardContent>
+      </Card>
+    </form>
   );
 }
 
@@ -233,12 +235,11 @@ const ExpandableFormSection = ({
         <Grid container spacing={2} marginTop={0.5} marginBottom={1.5}>
           {Object.keys(formData).map((key) => {
             return (
-              <Grid item xs={6}>
+              <Grid item xs={6} margin="auto">
                 <TextField
                   name={key}
                   label={formatLabel(key)}
                   defaultValue={formData[key]}
-                  required
                   fullWidth
                   onChange={onChange}
                 />
