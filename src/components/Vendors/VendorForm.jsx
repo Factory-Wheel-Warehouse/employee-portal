@@ -25,6 +25,7 @@ import React, { useState } from 'react';
 import _ from 'lodash';
 import { addVendor, updateVendor } from '../../util/aws';
 import { defaultVendor } from './defaultVendor';
+import sleep from '../../util/sleep';
 
 const vendorKeys = [
   'vendor_name',
@@ -70,12 +71,6 @@ export default function VendorForm({ ref, vendor, setFormData, setRefresh }) {
         [key]: { ...editedVendor[key], [name]: value },
       });
     }
-  };
-
-  const sleep = async (time) => {
-    return new Promise((resolve) => {
-      setTimeout(resolve, time);
-    });
   };
 
   const awsFunctionCall = (func, vendor) => {

@@ -28,7 +28,7 @@ export default function App() {
   const [accessCode, setAccessCode] = useState('');
   const drawerWidth = 250;
 
-  const modules = ['Vendors'];
+  const modules = ['Home', 'Vendors'];
   const moduleElementMap = {
     Home: <Home />,
     Vendors: <Vendors />,
@@ -150,7 +150,7 @@ export default function App() {
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <Toolbar />
           <Routes>
-            <Route key={'home'} path="/" element={<Vendors />} />
+            <Route key={'home'} path="/" element={<Home />} />
             {modules.map((module) => (
               <Route
                 key={module}
