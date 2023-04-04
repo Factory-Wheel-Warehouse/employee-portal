@@ -8,8 +8,9 @@ import {
   ListItemIcon,
   ListItemText,
   Divider,
+  CircularProgress,
 } from '@mui/material';
-import { Check } from '@mui/icons-material';
+import { Check, Error, Layers } from '@mui/icons-material';
 
 const baseUrl = 'https://corebuyer.herokuapp.com/';
 
@@ -55,23 +56,28 @@ export default function QuickActions() {
 
 const ActionButton = ({ href, title, key }) => {
   const [success, setSuccess] = useState(false);
+  const [icon, setIcon] = useState(<Layers />);
 
   const sendRequest = (e) => {
-    fetch(href, { mode: 'no-cors' })
+    setIcon(<CircularProgress size={24} />);
+    fetch('', { mode: 'no-cors' })
       .then(() => {
+        setIcon(<Check color="success" />);
         setSuccess(true);
-        sleep(3000).then(() => setSuccess(false));
+        sleep(3000).then(() => {
+          setSuccess(false);
+          setIcon(<Layers />);
+        });
       })
-      .catch((e) => console.log(e));
+      .catch((e) => {
+        setIcon(<Error />);
+        sleep(3000).then(() => setIcon(<Layers />));
+      });
   };
 
   return (
     <ListItemButton key={key} onClick={sendRequest}>
-      {success ? (
-        <ListItemIcon>
-          <Check />
-        </ListItemIcon>
-      ) : null}
+      <ListItemIcon>{icon}</ListItemIcon>
       <ListItemText primary={success ? 'Success' : title} />
     </ListItemButton>
   );
