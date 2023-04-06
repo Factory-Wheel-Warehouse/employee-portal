@@ -35,9 +35,11 @@ export const updateVendor = async (originalVendor, editedVendor) => {
 };
 
 export const addVendor = async (vendor) => {
+  console.log(vendor);
+  let cleanedVendor = cleanNullObjectData(vendor);
   await DYNAMODB.putItem({
     TableName: TABLE_NAME,
-    Item: marshall(cleanNullObjectData(vendor)),
+    Item: marshall(cleanedVendor),
   });
 };
 

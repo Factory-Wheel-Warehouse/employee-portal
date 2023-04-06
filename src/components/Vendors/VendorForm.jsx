@@ -27,17 +27,6 @@ import { addVendor, updateVendor } from '../../util/aws';
 import { defaultVendor } from './defaultVendor';
 import sleep from '../../util/sleep';
 
-const vendorKeys = [
-  'vendor_name',
-  'address',
-  'inventory_file_config',
-  'cost_map_config',
-  'sku_map_config',
-  'cost_adjustment_config',
-  'classification_config',
-  'inclusion_config',
-];
-
 const requiredKeys = ['vendor_name', 'address', 'inventory_file_config'];
 
 const formatLabel = (key) => {
@@ -73,9 +62,9 @@ export default function VendorForm({ ref, vendor, setFormData, setRefresh }) {
     }
   };
 
-  const awsFunctionCall = (func, vendor) => {
+  const awsFunctionCall = (func, ...vendorData) => {
     setLoading(true);
-    func(vendor).then(() => {
+    func(...vendorData).then(() => {
       setRefresh(true);
       setLoading(false);
       setSuccess(true);
@@ -104,7 +93,7 @@ export default function VendorForm({ ref, vendor, setFormData, setRefresh }) {
       }
     } else {
       if (vendorChanged) {
-        awsFunctionCall(updateVendor, editedVendor);
+        awsFunctionCall(updateVendor, originalVendor, editedVendor);
       } else {
         setAlert({
           hidden: false,
@@ -166,7 +155,7 @@ export default function VendorForm({ ref, vendor, setFormData, setRefresh }) {
         <Divider />
         <CardContent>
           <List>
-            {vendorKeys.map((key) => {
+            {Object.keys(defaultVendor).map((key) => {
               return key === 'vendor_name' ? (
                 <Box marginBottom={1.5}>
                   <TextField
@@ -184,7 +173,7 @@ export default function VendorForm({ ref, vendor, setFormData, setRefresh }) {
                 <ExpandableFormSection
                   key={key}
                   title={formatLabel(key)}
-                  formData={editedVendor[key]}
+                  formData={{ ...defaultVendor[key], ...editedVendor[key] }}
                   required={requiredKeys.includes(key)}
                   onChange={(e) => {
                     onChangeHandler(key, e);
