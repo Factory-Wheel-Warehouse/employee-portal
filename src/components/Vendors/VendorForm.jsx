@@ -117,7 +117,7 @@ export default function VendorForm({ ref, vendor, setFormData, setRefresh }) {
   };
 
   return (
-    <form onSubmit={onSaveHandler}>
+    <>
       <Card
         variant="outlined"
         sx={{
@@ -142,7 +142,7 @@ export default function VendorForm({ ref, vendor, setFormData, setRefresh }) {
                 startIcon={success ? <Check /> : <Save />}
                 color={success ? 'success' : 'primary'}
                 disabled={loading}
-                type="submit"
+                onClick={onSaveHandler}
               >
                 {success ? 'Success' : 'Save'}
               </Button>
@@ -195,7 +195,7 @@ export default function VendorForm({ ref, vendor, setFormData, setRefresh }) {
           </List>
         </CardContent>
       </Card>
-    </form>
+    </>
   );
 }
 
