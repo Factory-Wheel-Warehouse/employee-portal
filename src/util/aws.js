@@ -22,7 +22,7 @@ const cleanNullObjectData = (object) => {
         value === Object(value) ? cleanNullObjectData(value) : value,
       ])
       .filter(([_, value]) => value != null)
-      .filter(([_, value]) => !isEmpty(value))
+      .filter(([_, value]) => typeof value === 'number' || !isEmpty(value))
   );
 };
 
@@ -35,7 +35,6 @@ export const updateVendor = async (originalVendor, editedVendor) => {
 };
 
 export const addVendor = async (vendor) => {
-  console.log(vendor);
   let cleanedVendor = cleanNullObjectData(vendor);
   await DYNAMODB.putItem({
     TableName: TABLE_NAME,
