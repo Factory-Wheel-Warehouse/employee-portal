@@ -60,7 +60,7 @@ const ActionButton = ({ href, title, key }) => {
 
   const sendRequest = (e) => {
     setIcon(<CircularProgress size={24} />);
-    fetch('', { mode: 'no-cors' })
+    fetch(href, { mode: 'no-cors' })
       .then(() => {
         setIcon(<Check color="success" />);
         setSuccess(true);
