@@ -8,12 +8,6 @@ export const defaultVendor = {
     zipcode: null,
     country: null,
   },
-  sku_map_config: {
-    file_path: null,
-    dir_path: null,
-    inhouse_part_number_column: null,
-    vendor_part_number_column: null,
-  },
   inventory_file_config: {
     file_path: null,
     dir_path: null,
@@ -21,10 +15,17 @@ export const defaultVendor = {
     quantity_column: null,
     cost_column: null,
   },
-  inclusion_config: {
-    inclusion_condition: null,
-    exclusion_condition: null,
-    inclusion_condition_column: null,
+  cost_map_config: {
+    file_path: null,
+    dir_path: null,
+    part_number_column: null,
+    cost_column: null,
+  },
+  sku_map_config: {
+    file_path: null,
+    dir_path: null,
+    inhouse_part_number_column: null,
+    vendor_part_number_column: null,
   },
   cost_adjustment_config: {
     steel_adjustment: null,
@@ -36,10 +37,9 @@ export const defaultVendor = {
     core_condition: null,
     finish_condition: null,
   },
-  cost_map_config: {
-    file_path: null,
-    dir_path: null,
-    part_number_column: null,
-    cost_column: null,
+  inclusion_config: {
+    inclusion_condition: null,
+    exclusion_condition: null,
+    inclusion_condition_column: null,
   },
 };
