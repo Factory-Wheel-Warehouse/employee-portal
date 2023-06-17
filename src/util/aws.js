@@ -38,12 +38,11 @@ const cleanNullObjectData = (object) => {
 };
 
 export const updateVendor = async (originalVendor, editedVendor) => {
-  console.log(cleanNullObjectData(editedVendor));
-  // await DYNAMODB.deleteItem({
-  //   TableName: TABLE_NAME,
-  //   Key: marshall({ vendor_name: originalVendor.vendor_name }),
-  // });
-  // await addVendor(editedVendor);
+  await DYNAMODB.deleteItem({
+    TableName: TABLE_NAME,
+    Key: marshall({ vendor_name: originalVendor.vendor_name }),
+  });
+  await addVendor(editedVendor);
 };
 
 export const addVendor = async (vendor) => {
