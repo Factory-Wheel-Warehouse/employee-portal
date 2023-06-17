@@ -23,15 +23,27 @@ const cleanNullObjectData = (object) => {
       ])
       .filter(([_, value]) => value != null)
       .filter(([_, value]) => typeof value === 'number' || !isEmpty(value))
+      .map(([key, value]) => {
+        let temp = parseFloat(value);
+        if (!isNaN(temp) & (key !== 'zipcode')) {
+          if (temp % 1 === 0) {
+            return [key, parseInt(value)];
+          } else {
+            return [key, temp];
+          }
+        }
+        return [key, value];
+      })
   );
 };
 
 export const updateVendor = async (originalVendor, editedVendor) => {
-  await DYNAMODB.deleteItem({
-    TableName: TABLE_NAME,
-    Key: marshall({ vendor_name: originalVendor.vendor_name }),
-  });
-  await addVendor(editedVendor);
+  console.log(cleanNullObjectData(editedVendor));
+  // await DYNAMODB.deleteItem({
+  //   TableName: TABLE_NAME,
+  //   Key: marshall({ vendor_name: originalVendor.vendor_name }),
+  // });
+  // await addVendor(editedVendor);
 };
 
 export const addVendor = async (vendor) => {
